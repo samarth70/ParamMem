@@ -1,0 +1,67 @@
+Metadata-Version: 2.4
+Name: param_mem
+Version: 0.1.0
+Summary: Parametric Reflective Memory Agent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: torch>=2.0.0
+Requires-Dist: transformers>=4.40.0
+Requires-Dist: peft>=0.10.0
+Requires-Dist: trl>=0.8.0
+Requires-Dist: chromadb>=0.5.0
+Requires-Dist: fastapi>=0.110.0
+Requires-Dist: uvicorn>=0.29.0
+Requires-Dist: bitsandbytes>=0.43.0
+Requires-Dist: gradio>=4.20.0
+Requires-Dist: accelerate>=0.29.0
+Requires-Dist: datasets>=2.19.0
+Requires-Dist: pydantic>=2.7.0
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+
+# ParamMem: Parametric Reflective Memory Agent
+
+This repository contains the deployable implementation of the **ParamMem architecture**, which addresses "reflection collapse" in LLM agents by replacing retrieval-heavy memory with a lightweight parametric encoding module using LoRA.
+
+## Overview
+
+The project features the **ParamAgent-plus** variant, integrating:
+1. **Parametric Memory**: Fine-tuned LoRA adapters to internalize cross-sample reasoning patterns, mitigating repetitive outputs during reflection.
+2. **Cross-Sample Trajectory Bank**: ChromaDB-powered vector database to retrieve successful reasoning patterns from past experiences.
+3. **Iterative Agent Loop**: Unifies episodic memory with the parametric module to ensure robust, temperature-controlled iterative refinement.
+
+## Features
+- **Local Feasibility**: Optimized to run on local setups via `bitsandbytes` 4-bit quantization.
+- **Dynamic Evaluation**: Scripts to benchmark performance across HumanEval, GSM8K, and HotpotQA.
+- **Deployable API**: FastAPI backend to serve the agent.
+- **Interactive UI**: Gradio demo for real-time visualization of the reflection loop.
+
+## Setup
+
+1. **Install Dependencies**
+```bash
+pip install -e .
+```
+
+2. **Train LoRA Adapters**
+Generate or curate your `reflective_feedback.jsonl` in the `data/` directory, then run:
+```bash
+python src/scripts/train_lora.py --model meta-llama/Meta-Llama-3-8B-Instruct --dataset ./data/reflective_feedback.jsonl --output ./param_mem_lora
+```
+
+## Running the API & Demo
+We provide a Docker Compose configuration for easy deployment.
+
+```bash
+docker-compose up --build
+```
+- API is available at `http://localhost:8000/docs`
+- Gradio UI is available at `http://localhost:7860`
+
+Alternatively, you can run them directly:
+```bash
+uvicorn src.api.server:app --host 0.0.0.0 --port 8000
+python src/api/demo_ui.py
+```

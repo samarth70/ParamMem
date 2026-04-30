@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  param_mem_api:
+    build: .
+    ports:
+      - "8000:8000"
+      - "7860:7860"
+    volumes:
+      - .:/app
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PORT=8000
+    command: uvicorn src.api.server:app --host 0.0.0.0 --port 8000 --reload

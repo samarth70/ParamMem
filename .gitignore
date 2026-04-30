@@ -1,0 +1,27 @@
+# Environment
+.env
+.venv
+venv
+env
+*.pyc
+__pycache__/
+
+# IDE
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+dist/
+build/
+
+# Models & Data
+param_mem_lora/
+data/chroma_db/
+*.pt
+*.bin
+*.safetensors
+
+# OS
+.DS_Store
+Thumbs.db
