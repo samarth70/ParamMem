@@ -11,6 +11,12 @@ app_port: 7860
 
 ParamMem is a research-grade architecture designed to overcome **reflection collapse** in LLM agents. By replacing traditional retrieval-heavy memory with a lightweight **parametric encoding module**, the agent internalizes cross-sample reasoning patterns to generate diverse and effective corrective signals.
 
+## 🎬 System Demo & Launch Walkthrough
+
+<p align="center">
+  <img src="assets/demo.gif" alt="ParamMem Reasoning Dashboard Demo" width="100%" />
+</p>
+
 ## 🚀 Key Features
 - **Neural Trace Visualization**: A real-time, "cyber-dark" dashboard built with React and Framer Motion.
 - **Parametric Reflection**: LoRA-tuned memory module that provides high-diversity feedback without retrieval overhead.
